@@ -77,7 +77,7 @@ async function expandAlbum ()
         for ( let index = 0;index < currSongs.length;index++ )
         {
             const element = currSongs[ index ];
-            let songName = ( decodeURI(element).split("/")[6].slice(0,-4));
+            let songName = ( decodeURI( element ).split( "/" )[ 6 ].slice( 0, -4 ) );
             albums.innerHTML += `<div class="album ind${ index }">
                                         <img src=${ albumInfo.cover } alt="">
                                         <div class="songo">
@@ -117,8 +117,8 @@ async function toolCreator ()
 {
     let media = document.querySelector( ".musicplayer" );
     media.innerHTML = "";
-    console.log(  );
-    let songName =decodeURI( currSongs[ currSongInd ] ).split("/")[6].slice(0,-4);
+    console.log();
+    let songName = decodeURI( currSongs[ currSongInd ] ).split( "/" )[ 6 ].slice( 0, -4 );
     currSong.addEventListener( "loadedmetadata", () =>
     {
         currSongDuration = currSong.duration;
@@ -148,7 +148,7 @@ async function toolCreator ()
         {
             songTime.innerHTML = secondHandler( currSong.currentTime )
             let slider = document.querySelector( ".circle" );
-            slider.style.left = ( currSong.currentTime / currSongDuration) * 100 + "%";
+            slider.style.left = ( currSong.currentTime / currSongDuration ) * 100 + "%";
             let slideon = document.querySelector( ".slider" );
             slideon.style.backgroundImage = `linear-gradient(to right, white ${ ( ( currSong.currentTime / currSongDuration ) * 100 ) }%, #a7a7a7 ${ ( ( currSong.currentTime / currSongDuration ) * 100 ) }%)`;
             if ( currSong.currentTime >= currSongDuration )
@@ -248,6 +248,22 @@ async function main ()
         if ( event.target.classList.contains( "slider" ) )
         {
             currSong.currentTime = event.offsetX / event.target.getBoundingClientRect().width * currSongDuration;
+        }
+    } );
+    document.addEventListener( 'keydown', async ( event ) =>
+    {
+        if ( event.code === "Space" )
+        {
+            let svgelem = document.querySelector( ".playPauseSvg" );
+            if ( !currSong.paused )
+            {
+                currSong.pause();
+                svgelem.src = "Assets/SVG/playbutton.svg";
+            } else
+            {
+                currSong.play();
+                svgelem.src = "Assets/SVG/pause.svg";
+            }
         }
     } );
 }
